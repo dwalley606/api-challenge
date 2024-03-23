@@ -8,7 +8,7 @@ function generateTaskId() {
         taskList = [];
     }
     if (!nextId) {
-        nextId = 1,
+        nextId = 1;
     }
     return nextId++;
 
@@ -16,16 +16,47 @@ function generateTaskId() {
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
+    let taskCard = document.createElement('div');
+    taskCard.classList.add('task-card');
+    taskCard.innerHTML = `
+    <h3>${task.name}</h3>
+    <p>${task.description}</p>
+    `;
+
+    document.getElementById("todo-cards").appendChild(taskCard);
+
 
 }
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
+    $(".task-card").draggable({
+        revert: "invalid",
+        cursor: "move",
+        containment: "document",
+        helper: "clone"
+    });
 
 }
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
+    event.preventDefault();
+
+    let taskName = document.getElementById("taskName").value;
+    let taskDescription = document.getElementById("taskDescription").value;
+
+    let newTask = {
+        name: taskName,
+        description: taskDescription
+    };
+
+    taskList.push(newTask);
+
+    createTaskCard(newTask);
+
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+
 
 }
 
